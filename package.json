@@ -1,0 +1,19 @@
+{
+  "dependencies": {
+    "rxjs": "^7.6.0"
+  },
+  "name": "rxjs",
+  "version": "1.0.0",
+  "main": "index.js",
+  
+  "scripts": {
+    "start:snake": "parcel ./games/GreedySnake/index.html"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "parcel-bundler": "^1.12.5",
+    "typescript": "^4.9.4"
+  }
+}
