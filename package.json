@@ -7,7 +7,7 @@
   "main": "index.js",
   
   "scripts": {
-    "start:snake": "parcel ./games/GreedySnake/index.html"
+    "start:snake": "parcel ./src/GreedySnake/index.html"
   },
   "author": "",
   "license": "ISC",
