@@ -62,6 +62,8 @@ let click$ = fromEvent(document, "click");
 let keydown$ = fromEvent<KeyboardEvent>(document, "keydown");
 
 function createGame(fps$: Observable<number>): Observable<Scene> {
+
+  // 创建键盘输入源
   let direction$ = keydown$.pipe(
     map((event) => DIRECTIONS[event.keyCode]),
     filter((direction) => !!direction),
@@ -73,25 +75,29 @@ function createGame(fps$: Observable<number>): Observable<Scene> {
     distinctUntilChanged()
   );
 
+  // 创建蛇的长度源
   let length$ = new BehaviorSubject<number>(SNAKE_LENGTH);
 
   let snakeLength$ = length$.pipe(
     scan((step, snakeLength) => snakeLength + step),
-    // 将单播observable变为多播
-    share()
+    // 这里应该不需要
+    // share()
   );
 
+  // 创建分数源
   let score$ = snakeLength$.pipe(
     startWith(0),
     scan((score, _) => score + POINTS_PER_APPLE)
   );
 
   let snake$: Observable<Array<Point2D>> = ticks$.pipe(
+    // 结合源 Observable 和另外的 Observables 以创建新的 Observable， 该 Observable 的值由每 个 Observable 最新的值计算得出，当且仅当源发出的时候。
     withLatestFrom(direction$, snakeLength$, (_, direction, snakeLength) => [
       direction,
       snakeLength,
     ]),
     scan(move, generateSnake()),
+    // 将单播observable变为多播
     share()
   );
 
@@ -103,15 +109,16 @@ function createGame(fps$: Observable<number>): Observable<Scene> {
 
   let appleEaten$ = apples$
     .pipe(
+      // 跳过observable的前n个值
       skip(1),
+      // 对observable发出的值执行effect
       tap(() => length$.next(POINTS_PER_APPLE))
     )
     .subscribe();
 
+  // 组合多个 Observables 来创建一个 Observable ，该 Observable 的值根据每个输入 Observable 的最新值计算得出的。
   let scene$: Observable<Scene> = combineLatest(
-    snake$,
-    apples$,
-    score$,
+    [ snake$, apples$, score$ ],
     (snake, apples, score) => ({ snake, apples, score })
   );
 
@@ -128,7 +135,7 @@ let game$ = of("Start Game").pipe(
 const startGame = () => {
   game$.subscribe({
     next: (scene) => {
-        renderScene(ctx, scene);
+      renderScene(ctx, scene);
     },
     complete: () => {
       renderGameOver(ctx);
