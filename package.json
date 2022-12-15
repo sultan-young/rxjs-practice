@@ -8,7 +8,8 @@
   
   "scripts": {
     "start:snake": "parcel ./src/GreedySnake/index.html",
-    "start:rx-combination-operator": "parcel ./src/rx-combination-operator/index.html"
+    "start:rx-combination-operator": "parcel ./src/rx-combination-operator/index.html",
+    "start:dropDragon": "parcel ./src/drop_dragon/index.html"
   },
   "author": "",
   "license": "ISC",

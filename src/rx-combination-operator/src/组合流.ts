@@ -1,5 +1,5 @@
 
-import { combineLatest, concat, concatAll, forkJoin, interval, map, merge, of, race, take, takeWhile, tap, withLatestFrom, zip } from "rxjs";
+import { combineLatest, concat, concatAll, forkJoin, from, interval, map, merge, of, race, take, takeWhile, tap, withLatestFrom, zip } from "rxjs";
 
 
 /**
