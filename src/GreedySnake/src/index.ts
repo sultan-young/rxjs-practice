@@ -151,3 +151,6 @@ const startGame = () => {
 };
 
 startGame();
+
+const getPostOne$ = Rx.Observable.timer(3000).mapTo({id: 1});
+const getPostTwo$ = Rx.Observable.timer(1000).mapTo({id: 2});
