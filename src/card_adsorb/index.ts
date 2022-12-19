@@ -59,6 +59,7 @@ const containerDown$ = fromEvent<MouseEvent>(container, "mousedown").pipe(
             info.el.style.zIndex = info.sourceZIndex
         })
       )),
+      
       map(
         (moveEvent): Info => ({
           ...info,

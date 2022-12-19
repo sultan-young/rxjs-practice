@@ -10,7 +10,8 @@
     "start:snake": "parcel ./src/GreedySnake/index.html",
     "start:rx-combination-operator": "parcel ./src/rx-combination-operator/index.html",
     "start:dropDragon": "parcel ./src/drop_dragon/index.html",
-    "start:cardAdsorb": "parcel ./src/card_adsorb/index.html"
+    "start:cardAdsorb": "parcel ./src/card_adsorb/index.html",
+    "start:exercise_question": "parcel ./src/exercise_question/index.html"
   },
   "author": "",
   "license": "ISC",

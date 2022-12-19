@@ -24,9 +24,9 @@ let stream2 = interval(200).pipe(
   take(3),
   map((i) => ["a", "b", "c", "d"][i])
 );
-// merge(stream1, stream2).subscribe(value => {
-//     console.log(value)
-// });
+merge(stream1, stream2).subscribe(value => {
+    console.log(value)
+});
 // 输出 1 a 2 b 3 c
 
 /**
