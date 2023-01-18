@@ -16,4 +16,4 @@ export function createCards(counts: number) {
         cards.push(dragon);
     };
     return cards;
-}
+}   

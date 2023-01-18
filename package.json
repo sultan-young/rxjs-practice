@@ -1,17 +1,18 @@
 {
   "dependencies": {
+    "reflect-metadata": "^0.1.13",
     "rxjs": "^7.6.0"
   },
   "name": "rxjs",
   "version": "1.0.0",
   "main": "index.js",
-  
   "scripts": {
     "start:snake": "parcel ./src/GreedySnake/index.html",
     "start:rx-combination-operator": "parcel ./src/rx-combination-operator/index.html",
     "start:dropDragon": "parcel ./src/drop_dragon/index.html",
     "start:cardAdsorb": "parcel ./src/card_adsorb/index.html",
-    "start:exercise_question": "parcel ./src/exercise_question/index.html"
+    "start:exercise_question": "parcel ./src/exercise_question/index.html",
+    "start:jump_box": "parcel ./src/jump_box/index.html"
   },
   "author": "",
   "license": "ISC",
