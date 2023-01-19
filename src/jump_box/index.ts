@@ -1,52 +1,26 @@
-import "reflect-metadata";
-
-type Constructor<T = any> = new (...args: any[]) => T;
-
-const Injectable = (): ClassDecorator => (target) => {};
-
-const Factory = <T>(target: Constructor<T>): T => {
-  // 获取所有注入的服务
-  const providers = Reflect.getMetadata("design:paramtypes", target); // [OtherService]
-
-  // TODO: 对provider中的依赖进行分析，并再次注入
-  const args = providers.map((provider: Constructor) => new provider());
-  return new target(...args);
-};
-
-const Inject = (service: any) => {
-  return (target: any, key: string, descriptor: number) => {
-    console.log(Reflect.getMetadata("design:type", target, key), key);
-    // console.log(target, key, descriptor);
-
-    // Reflect.get
-    // console.log(Reflect.getMetadata('design:type', target, key))
-    // return descriptor;
-  };
-};
-
-// 场景
-@Injectable()
-class SceneService {
-}
-
-// 视觉服务
-@Injectable()
-class VisualService {
-  a = 1;
-  constructor(private scene: SceneService) {}
-  scale() {
-    console.log("scale");
-  }
-}
+import { Injectable, LocContainer } from "./loC/loC";
+import { CanvasService } from "./canvas";
+import { getTime } from "./util/time";
+import { BehaviorControl } from "./base/behaviorControl";
 
 @Injectable()
-class Man {
-  constructor(private visualService: VisualService) {}
+class Game {
+    constructor(private canvasService: CanvasService) {
 
-  // 放出绝招
-  releaseTrick() {
-    this.visualService.scale();
-  }
+    }
+    start() {
+        this.animate(getTime())
+    }
+    animate(lastAnimationTime: number) {
+        const nowTime = getTime();
+        // console.log(nowTime - lastAnimationTime)
+        requestAnimationFrame(this.animate.bind(this, nowTime));
+    }
 }
 
-Factory(Man).releaseTrick();
+const game = LocContainer.get(Game);
+game.start()
+// .start();
+
+
+new BehaviorControl()
