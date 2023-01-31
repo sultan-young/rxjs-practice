@@ -1,7 +1,8 @@
 {
   "dependencies": {
     "reflect-metadata": "^0.1.13",
-    "rxjs": "^7.6.0"
+    "rxjs": "^7.6.0",
+    "uuid": "^9.0.0"
   },
   "name": "rxjs",
   "version": "1.0.0",
@@ -18,6 +19,7 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "@types/uuid": "^9.0.0",
     "parcel-bundler": "^1.12.5",
     "typescript": "^4.9.4"
   }

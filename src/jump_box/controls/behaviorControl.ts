@@ -1,5 +1,5 @@
 import { filter, fromEvent } from "rxjs"
-import { BaseBox } from "./box";
+import { BaseBox } from "../base/box";
 
 interface Behavior {
     jump: () => void
