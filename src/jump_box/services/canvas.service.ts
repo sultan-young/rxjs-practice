@@ -1,26 +1,76 @@
-import { Injectable } from "../loC/loC";
+import { map, range } from "rxjs";
+import { BaseSprite } from "../base/baseSprite";
+import { Injectable } from "../frame/loC/loC";
 import { DrawerService } from "./drawer.service";
+import { getRandomNumber } from "../util/random";
+
+type MapInfo = {
+  width: number;
+  height: number;
+};
 
 // 场景
 @Injectable({
   providedIn: "root",
 })
-export class CanvasService {
-  canvas !: HTMLCanvasElement;
+export class MapService {
+  canvas!: HTMLCanvasElement;
+  ctx!: CanvasRenderingContext2D;
+  currentObstacles: BaseSprite[] = [];
+  // 障碍物数量
+  maxObstacles = 7;
+  // 地图滚动速度 px/fps
+  speed = 1;
+  // 地图偏移量
+  offsetLeft = 0;
 
-  constructor(private DrawerService: DrawerService) {
-    this.createMap();
+  constructor() {}
+
+  initMap(mapInfo: MapInfo) {
+   this.createMap(mapInfo);
+   this.createObstacle();
   }
-  createMap() {
-    const canvas = document.createElement('canvas');
-    canvas.innerHTML = '您的浏览器不支持canvas，请更换高级浏览器';
-    canvas.width = document.documentElement.clientWidth;
-    canvas.height = 200;
-    canvas.style.background = 'pink'
+
+  createMap(mapInfo: MapInfo) {
+    const canvas = document.createElement("canvas");
+    canvas.innerHTML = "您的浏览器不支持canvas，请更换高级浏览器";
+    canvas.width = mapInfo.width;
+    canvas.height = mapInfo.height;
     document.body.appendChild(canvas);
     this.canvas = canvas;
-    const ctx = this.canvas.getContext('2d')!;
-    // ctx.translate(100, 0)
-    ctx?.fillRect(0, 200 - 60, 60, 60)
+    this.ctx = this.canvas.getContext("2d")!;
+  }
+
+  // 创建障碍物
+  createObstacle() {
+    /**
+     * 障碍物规则：
+     * 两个障碍物之前相聚100 - 200px
+     * 高度在30 - 60之间
+     *  宽度在20 - 40之间
+     */
+    let distance = 50;
+    const Obstacle = new Array(this.maxObstacles).fill("").map((_) => {
+      const height = getRandomNumber(30, 60);
+      const randomDistance = getRandomNumber(100, 200);
+      const sprite = new BaseSprite({
+        width: getRandomNumber(20, 40),
+        height,
+        offsetPosition: {
+          x: distance + randomDistance,
+          y: this.canvas.height - height,
+        },
+      });
+      distance += randomDistance;
+      return sprite;
+    });
+    this.currentObstacles.push(...Obstacle)
+  }
+
+  update() {
+    this.ctx.clearRect(this.offsetLeft, 0, this.canvas.width , this.canvas.height)
+    this.offsetLeft += this.speed;
+    console.log(' this.offsetLeft: ',  this.offsetLeft);
+    this.ctx.translate(-1, 0);
   }
 }
