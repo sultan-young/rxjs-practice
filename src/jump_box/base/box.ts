@@ -18,7 +18,7 @@ export class BaseBox {
         x: 0,
         y: 0,
     }
-    constructor(private behaviorControlService: BehaviorControl) {
+    constructor(private behaviorControl: BehaviorControl) {
         
     }
 }
