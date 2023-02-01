@@ -26,6 +26,7 @@ class Game {
   }
   animate(lastAnimationTime: number) {
     const nowTime = getTime();
+    // console.log(1000 / (nowTime - lastAnimationTime))
     this.updateGame();
     // console.log(nowTime - lastAnimationTime)
     requestAnimationFrame(this.animate.bind(this, nowTime));

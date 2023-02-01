@@ -13,7 +13,7 @@
     "start:dropDragon": "parcel ./src/drop_dragon/index.html",
     "start:cardAdsorb": "parcel ./src/card_adsorb/index.html",
     "start:exercise_question": "parcel ./src/exercise_question/index.html",
-    "start:jump_box": "parcel ./src/jump_box/index.html"
+    "start:dinosaur_run": "parcel ./src/dinosaur_run/index.html"
   },
   "author": "",
   "license": "ISC",

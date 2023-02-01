@@ -11,7 +11,11 @@ export class DrawerService {
         ctx.save();
         const { width, height } = sprite;
         const { x, y } = sprite.offsetPosition;
-        
+        ctx.save()
+        ctx.fillStyle = 'red'
+        ctx.font = '20px 微软雅黑'
+        ctx.fillText(sprite.name, x, y)
+        ctx.restore()
         ctx.fillRect(x, y, width, height);
     }
 }

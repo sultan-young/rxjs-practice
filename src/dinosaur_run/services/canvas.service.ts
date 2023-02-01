@@ -18,8 +18,8 @@ export class MapService {
   ctx!: CanvasRenderingContext2D;
   currentObstacles: BaseSprite[] = [];
   // 障碍物数量
-  maxObstacles = 7;
-  // 地图滚动速度 px/fps
+  maxObstacles = 17;
+  // 地图滚动速度 px/frame
   speed = 1;
   // 地图偏移量
   offsetLeft = 0;
@@ -50,12 +50,13 @@ export class MapService {
      *  宽度在20 - 40之间
      */
     let distance = 50;
-    const Obstacle = new Array(this.maxObstacles).fill("").map((_) => {
+    const Obstacle = new Array(this.maxObstacles).fill("").map((_, index) => {
       const height = getRandomNumber(30, 60);
       const randomDistance = getRandomNumber(100, 200);
       const sprite = new BaseSprite({
         width: getRandomNumber(20, 40),
         height,
+        name: index + '',
         offsetPosition: {
           x: distance + randomDistance,
           y: this.canvas.height - height,
@@ -68,9 +69,11 @@ export class MapService {
   }
 
   update() {
-    this.ctx.clearRect(this.offsetLeft, 0, this.canvas.width , this.canvas.height)
+    this.ctx.clearRect(0, 0, this.canvas.width , this.canvas.height)
+    this.ctx.save()
     this.offsetLeft += this.speed;
     console.log(' this.offsetLeft: ',  this.offsetLeft);
-    this.ctx.translate(-1, 0);
+    this.ctx.translate(this.offsetLeft, 0);
+    this.ctx.restore()
   }
 }
