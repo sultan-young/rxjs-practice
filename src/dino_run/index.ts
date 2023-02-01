@@ -5,6 +5,7 @@ import { BehaviorControl } from "./controls/behaviorControl";
 import { DrawerService, SpriteService } from "./services";
 import { BaseBox } from "./base/box";
 import { BaseSprite } from "./base/baseSprite";
+import { animationFrameScheduler, timer } from "rxjs";
 
 @Injectable()
 class Game {
@@ -21,7 +22,7 @@ class Game {
         height: 100,
     });
     this.spriteList.push(this.spriteService.createMainCharacter());
-    this.spriteList.push(...this.mapService.currentObstacles)
+    this.spriteList.push(...this.mapService.currentObstacles);
     this.animate(getTime());
   }
   animate(lastAnimationTime: number) {
