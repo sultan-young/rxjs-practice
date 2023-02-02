@@ -1,22 +1,27 @@
 export enum SPRITES_ENUM {
-  BirdUp,
-  BirdDown,
-  Cactus,
-  CactusDouble,
-  CactusDoubleB,
-  CactusTriple,
-  Cloud,
-  Dino,
-  DinoDuckLeftLeg,
-  DinoDuckRIghtLeg,
-  DinoLeftLeg,
-  DinoRightLeg,
-  Ground,
-  ReplayIcon,
+  BirdUp = 'BirdUp',
+  BirdDown = 'BirdDown',
+  Cactus = 'Cactus',
+  CactusDouble = 'CactusDouble',
+  CactusDoubleB = 'CactusDoubleB',
+  CactusTriple = 'CactusTriple',
+  Cloud = 'Cloud',
+  Dino = 'Dino',
+  DinoDuckLeftLeg = 'DinoDuckLeftLeg',
+  DinoDuckRIghtLeg = 'DinoDuckRIghtLeg',
+  DinoLeftLeg = 'DinoLeftLeg',
+  DinoRightLeg = 'DinoRightLeg',
+  Ground = 'Ground',
+  ReplayIcon = 'ReplayIcon',
 }
 
 export const SPRITE_LOCATION: {
-  [key in SPRITES_ENUM]: any
+  [key in SPRITES_ENUM]: {
+    x: number;
+    y: number;
+    h: number;
+    w: number;
+  }
 } = {
   [SPRITES_ENUM.BirdUp]: { h: 52, w: 84, x: 708, y: 31 },
   [SPRITES_ENUM.BirdDown]: { h: 60, w: 84, x: 708, y: 85 },

@@ -1,6 +1,6 @@
 import { createCanvas } from "../util/canvas";
 
-export interface GameConfig {
+export interface MapConfig {
   mapSize: ClientSize;
   mapContainer: HTMLElement;
 }
@@ -16,7 +16,7 @@ export abstract class GameRunner {
   public ctx!: CanvasRenderingContext2D;
 
   // 游戏基础配置
-  public readonly GameConfig: GameConfig = {
+  public readonly MapConfig: MapConfig = {
     mapSize: {
       width: 600,
       height: 150,
@@ -30,7 +30,7 @@ export abstract class GameRunner {
     lastFrameTime: 0,
   };
 
-  constructor(gameDefaultConfig?: GameConfig) {
+  constructor(gameDefaultConfig?: MapConfig) {
     this.gameLoop = this.gameLoop.bind(this);
 
     if (gameDefaultConfig) {
@@ -46,10 +46,10 @@ export abstract class GameRunner {
   // 开始游戏
   async start() {
     if (!this.canvas || !this.ctx) {
-        const { canvas, ctx } = createCanvas(this.GameConfig.mapSize);
+        const { canvas, ctx } = createCanvas(this.MapConfig.mapSize);
         this.canvas = canvas;
         this.ctx = ctx;
-        this.GameConfig.mapContainer.appendChild(canvas);
+        this.MapConfig.mapContainer.appendChild(canvas);
     }
     await this.preLoad();
     this.gameState.paused = false;
@@ -57,7 +57,9 @@ export abstract class GameRunner {
   }
 
   // 暂停游戏
-  pause() {}
+  pause() {
+    this.gameState.paused = true;
+  }
 
   // 恢复暂停
   unPause() {}
