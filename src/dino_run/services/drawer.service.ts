@@ -8,14 +8,12 @@ export class DrawerService {
 
     }
     draw(sprite: BaseSprite, ctx: CanvasRenderingContext2D) {
-        ctx.save();
+        // TIPS: 频繁的ctx.save ctx.restore 会导致渲染卡顿
         const { width, height } = sprite;
         const { x, y } = sprite.offsetPosition;
-        ctx.save()
         ctx.fillStyle = 'red'
         ctx.font = '20px 微软雅黑'
         ctx.fillText(sprite.name, x, y)
-        ctx.restore()
         ctx.fillRect(x, y, width, height);
     }
 }

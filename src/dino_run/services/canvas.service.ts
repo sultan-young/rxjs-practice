@@ -18,7 +18,7 @@ export class MapService {
   ctx!: CanvasRenderingContext2D;
   currentObstacles: BaseSprite[] = [];
   // 障碍物数量
-  maxObstacles = 17;
+  maxObstacles = 117;
   // 地图滚动速度 px/frame
   speed = 1;
   // 地图偏移量
@@ -72,7 +72,7 @@ export class MapService {
     this.ctx.clearRect(0, 0, this.canvas.width , this.canvas.height)
     this.ctx.save()
     this.offsetLeft += this.speed;
-    console.log(' this.offsetLeft: ',  this.offsetLeft);
+    // console.log(' this.offsetLeft: ',  this.offsetLeft);
     this.ctx.translate(this.offsetLeft, 0);
     this.ctx.restore()
   }
