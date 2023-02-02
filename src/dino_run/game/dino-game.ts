@@ -1,3 +1,4 @@
+import { SPRITES_ENUM, SPRITE_LOCATION } from "../setting/sprites-location.setting";
 import { getImageData } from "../util/canvas";
 import { loadImage } from "../util/load-assets";
 import { GameRunner } from "./game-runner";
@@ -52,5 +53,11 @@ export class DinoGame extends GameRunner {
   // 绘制分数
   drawScore() {
 
+  }
+
+  // 绘制sprite
+  paintSprite(spriteEnum: SPRITES_ENUM, dx: number, dy: number) {
+    const { h, w, x, y } = SPRITE_LOCATION[spriteEnum]
+    this.ctx.drawImage(this.spriteImage, x, y, w, h, dx, dy, w / 2, h / 2)
   }
 }
