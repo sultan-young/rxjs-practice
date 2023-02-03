@@ -1,9 +1,11 @@
 import { GAME_DEFAULT_SETTING } from "../setting/game.setting";
-import { SPRITES_ENUM, SPRITE_LOCATION } from "../setting/sprites-location.setting";
-import { getImageData } from "../util/canvas";
+import { SPRITES_ENUM, SPRITE_LOCATION } from "../setting/sprites.setting";
+import { setImageAlphaArrCurrying, getImageData } from "../util/canvas";
 import { loadImage } from "../util/load-assets";
 import { GameRunner } from "./game-runner";
-import imageURL from './sprite.png'
+import imageURL from '../assets/sprite.png'
+import { Cloud } from "../actors/cloud";
+import { Actor } from "../actors/actors";
 
 export class DinoGame extends GameRunner {
   spriteImage!: HTMLImageElement;
@@ -16,6 +18,13 @@ export class DinoGame extends GameRunner {
   state = {
     groundX: 0,
     groundY: 0,
+  }
+
+  // 当前的sprite集合
+  sprites: {
+    [props: string]: Actor[];
+  } = {
+    clouds: []
   }
 
   constructor() {
@@ -67,7 +76,11 @@ export class DinoGame extends GameRunner {
 
   // 绘制云朵
   drawClouds() {
-
+    const { clouds } = this.sprites;
+    const { cloudSpawnRate } = this.gameSetting;
+    if (!this.sprites.clouds.length) {
+      this.sprites.clouds.push(new Cloud(3));
+    }
   }
 
   // 绘制恐龙（主角）

@@ -4,7 +4,7 @@ export const GAME_DEFAULT_SETTING = {
   birdSpawnRate: 240, // fpa
   birdWingsRate: 15, // fpa
   cactiSpawnRate: 50, // fpa
-  cloudSpawnRate: 200, // fpa
+  cloudSpawnRate: 200, // fpa 云朵生成速率， 每 200 帧生成一个
   cloudSpeed: 2, // ppf
   dinoGravity: 0.5, // ppf
   dinoGroundOffset: 4, // px

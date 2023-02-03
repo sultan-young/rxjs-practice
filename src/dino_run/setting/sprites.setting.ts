@@ -15,13 +15,15 @@ export enum SPRITES_ENUM {
   ReplayIcon = 'ReplayIcon',
 }
 
+export interface SpriteSetting {
+  x: number;
+  y: number;
+  h: number;
+  w: number;
+}
+
 export const SPRITE_LOCATION: {
-  [key in SPRITES_ENUM]: {
-    x: number;
-    y: number;
-    h: number;
-    w: number;
-  }
+  [key in SPRITES_ENUM]: SpriteSetting
 } = {
   [SPRITES_ENUM.BirdUp]: { h: 52, w: 84, x: 708, y: 31 },
   [SPRITES_ENUM.BirdDown]: { h: 60, w: 84, x: 708, y: 85 },

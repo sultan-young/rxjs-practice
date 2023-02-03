@@ -14,6 +14,8 @@ export interface ClientSize {
 export abstract class GameRunner {
   public canvas!: HTMLCanvasElement;
   public ctx!: CanvasRenderingContext2D;
+  // 当前累计帧数
+  public frameCount = 0;
 
   // 游戏基础配置
   public readonly MapConfig: MapConfig = {
@@ -73,6 +75,7 @@ export abstract class GameRunner {
     // 游戏是否暂停中
     if (this.gameState.paused) return;
     this.draw();
+    this.frameCount += 1;
     this.gameState.fps = Math.round(1000 / (timestamp - lastFrameTime));
     this.gameState.lastFrameTime = timestamp;
     requestAnimationFrame(this.gameLoop);
