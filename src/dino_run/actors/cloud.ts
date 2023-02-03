@@ -1,6 +1,5 @@
 import { GAME_DEFAULT_SETTING } from "../setting/game.setting";
 import { SPRITES_ENUM } from "../setting/sprites.setting";
-import { getImageAlphaArr } from "../util/canvas";
 import { getRandomNumber } from "../util/random";
 import { Actor } from "./actors";
 
@@ -10,10 +9,10 @@ export class Cloud extends Actor {
     // 速度
     public speed = GAME_DEFAULT_SETTING.cloudSpeed;
     
-    public readonly sprite = SPRITES_ENUM.Cloud;
 
-    constructor(speed: number) {
-        super();
+    constructor(spriteImageData: ImageData, speed: number) {
+        super(spriteImageData);
+        this.sprite = SPRITES_ENUM.Cloud;
         this.speed = speed;
         // this.appendActionHook('move', () => {
 

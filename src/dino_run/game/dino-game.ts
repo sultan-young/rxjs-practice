@@ -6,6 +6,7 @@ import { GameRunner } from "./game-runner";
 import imageURL from '../assets/sprite.png'
 import { Cloud } from "../actors/cloud";
 import { Actor } from "../actors/actors";
+import { getRandomNumber } from "../util/random";
 
 export class DinoGame extends GameRunner {
   spriteImage!: HTMLImageElement;
@@ -40,6 +41,7 @@ export class DinoGame extends GameRunner {
   override async preLoad(): Promise<void> {
     this.spriteImage = await loadImage(imageURL);
     this.spriteImageData = getImageData(this.spriteImage);
+    
         // console.log('spriteImage: ', spriteImage);
   }
   draw(): void {
@@ -78,9 +80,16 @@ export class DinoGame extends GameRunner {
   drawClouds() {
     const { clouds } = this.sprites;
     const { cloudSpawnRate } = this.gameSetting;
-    if (!this.sprites.clouds.length) {
-      this.sprites.clouds.push(new Cloud(3));
+
+    this.clearInstances(this.sprites.clouds);
+    if (this.frameCount % cloudSpawnRate === 0) {
+      const newCloudSprite = new Cloud(this.spriteImageData, 3);
+      // 当需要生成时候，将该sprite放在地图右侧
+      newCloudSprite.x = this.MapConfig.mapSize.width;
+      newCloudSprite.y = getRandomNumber(20, 80);
+      this.sprites.clouds.push(newCloudSprite);
     }
+    this.paintSprites(this.sprites.clouds)
   }
 
   // 绘制恐龙（主角）
@@ -91,6 +100,25 @@ export class DinoGame extends GameRunner {
   // 绘制分数
   drawScore() {
 
+  }
+
+  // 当sprite不可见时候进行清除
+  clearInstances(actorInstances: Actor[]) {
+    for (let i = actorInstances.length - 1; i >= 0; i-- ) {
+      const instance = actorInstances[i];
+      instance.nextFrame();
+      if (instance.rightX <= 0) {
+        actorInstances.splice(i, 1);
+      }
+    }
+
+  }
+
+  // 批量绘制
+  paintSprites(spriteInstances: Actor[]) {
+    spriteInstances.forEach(instance => {
+      this.paintSprite(instance.sprite, instance.x, instance.y);
+    })
   }
 
   // 绘制sprite

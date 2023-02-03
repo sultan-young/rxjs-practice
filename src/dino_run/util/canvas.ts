@@ -35,7 +35,7 @@ export function getImageData(image: HTMLImageElement) {
 // 获取图像的透明度映射成二进制数组
 export const setImageAlphaArrCurrying = (imageData: ImageData, spriteSetting: {[spriteName: string]: SpriteSetting}) => {
     const cache = new Map();
-    return function getImageAlphaArr(key: string) {
+    return function getImageAlphaArr(key: string): number[][] {
       const sprite = spriteSetting[key];
       if (!sprite) {
         throw Error(`未找到key为${key}的sprite`)
@@ -55,11 +55,10 @@ export const setImageAlphaArrCurrying = (imageData: ImageData, spriteSetting: {[
         let line = [];
         let initJValue = i + sprite.x * 4;
         for (let j = initJValue; j < initJValue + sprite.w * 4; j += 8) {
-          line.push(imageData.data[j + 3] === 0 ? "*" : " ");
+          line.push(imageData.data[j + 3] === 0 ? 0 : 1);
         }
         lines.push(line);
       }
-      console.log("lines: ", lines);
       cache.set(key, lines);
       return lines;
     };
