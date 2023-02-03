@@ -7,6 +7,7 @@ import imageURL from '../assets/sprite.png'
 import { Cloud } from "../actors/cloud";
 import { Actor } from "../actors/actors";
 import { getRandomNumber } from "../util/random";
+import { Dino } from "../actors/dino";
 
 export class DinoGame extends GameRunner {
   spriteImage!: HTMLImageElement;
@@ -25,7 +26,8 @@ export class DinoGame extends GameRunner {
   sprites: {
     [props: string]: Actor[];
   } = {
-    clouds: []
+    clouds: [],
+    dino: []
   }
 
   constructor() {
@@ -42,6 +44,9 @@ export class DinoGame extends GameRunner {
     this.spriteImage = await loadImage(imageURL);
     this.spriteImageData = getImageData(this.spriteImage);
     
+    // 加载出dino
+    const dino = new Dino(this.spriteImageData);
+
         // console.log('spriteImage: ', spriteImage);
   }
   draw(): void {
@@ -94,7 +99,7 @@ export class DinoGame extends GameRunner {
 
   // 绘制恐龙（主角）
   drawDino() {
-
+    const { dino } = this.sprites;
   }
 
   // 绘制分数
