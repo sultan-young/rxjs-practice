@@ -8,7 +8,10 @@ import { Cloud } from "../actors/cloud";
 import { Actor } from "../actors/actors";
 import { getRandomNumber } from "../util/random";
 import { Dino } from "../actors/dino";
+import { Injectable } from "../frame/loC/loC";
+import { KeyboardIoControl } from "../controls/keyboardIoControl";
 
+@Injectable()
 export class DinoGame extends GameRunner {
   spriteImage!: HTMLImageElement;
   spriteImageData!: ImageData;
@@ -27,12 +30,26 @@ export class DinoGame extends GameRunner {
     [props: string]: Actor[];
   } = {
     clouds: [],
-    dino: []
+    dinos: []
   }
 
-  constructor() {
+  constructor(
+    private keyboardIoControl: KeyboardIoControl,
+  ) {
     super();
     this.initSpriteState();
+    this.keyboardIoControl.register({
+      'w': () => {
+        this.sprites.dinos.forEach(dino => {
+          dino.actions$.next('jump')
+        })
+      },
+      's': () => {
+        this.sprites.dinos.forEach(dino => {
+          dino.actions$.next('duck')
+        })
+      }
+    })
   }
   
   initSpriteState() {
@@ -46,6 +63,7 @@ export class DinoGame extends GameRunner {
     
     // 加载出dino
     const dino = new Dino(this.spriteImageData);
+    this.sprites.dinos.push(dino)
 
         // console.log('spriteImage: ', spriteImage);
   }
@@ -99,7 +117,11 @@ export class DinoGame extends GameRunner {
 
   // 绘制恐龙（主角）
   drawDino() {
-    const { dino } = this.sprites;
+    const { dinos } = this.sprites;
+    dinos.forEach(dino => {
+      dino.nextFrame();
+      this.paintSprite(dino.sprite, dino.x, dino.y)
+    })
   }
 
   // 绘制分数

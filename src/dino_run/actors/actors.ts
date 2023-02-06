@@ -1,3 +1,4 @@
+import { BehaviorSubject } from "rxjs";
 import { SPRITES_ENUM, SPRITE_LOCATION } from "../setting/sprites.setting";
 import { setImageAlphaArrCurrying } from "../util/canvas";
 
@@ -9,6 +10,7 @@ export abstract class Actor {
     public x = 0;
     public y = 0;
     public speed = 0;
+    public actions$ = new BehaviorSubject('123');
 
     // sprite不透明度数组，二维
     private alphaMap: number[][] = [];

@@ -14,9 +14,7 @@ export class Cloud extends Actor {
         super(spriteImageData);
         this.sprite = SPRITES_ENUM.Cloud;
         this.speed = speed;
-        // this.appendActionHook('move', () => {
 
-        // })
     }
     
     nextFrame(): void {

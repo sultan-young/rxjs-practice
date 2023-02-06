@@ -1,5 +1,5 @@
 import { Behavior, BehaviorEnum } from "../behaviors";
-import { BehaviorControl } from "../controls/behaviorControl";
+import { BehaviorControl } from "../controls/keyboardIoControl";
 import { v4 as uuidV4 } from "uuid";
 import { BaseSprite } from "./baseSprite";
 

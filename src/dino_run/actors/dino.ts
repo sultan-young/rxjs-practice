@@ -13,12 +13,14 @@ export class Dino extends Actor {
     constructor(spriteImageData: ImageData) {
         super(spriteImageData);
         this.sprite = SPRITES_ENUM.Cloud;
-        // this.appendActionHook('move', () => {
-
-        // })
+        this.actions$.subscribe((action) => {
+            console.log('action: ', action);
+        })
     }
     
     nextFrame(): void {
-        this.x -= this.speed * this.randomSpeedCoefficient;
+        // this.x -= this.speed * this.randomSpeedCoefficient;
+        this.sprite = SPRITES_ENUM.Dino;
+
     }
 }
