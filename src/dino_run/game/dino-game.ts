@@ -38,16 +38,28 @@ export class DinoGame extends GameRunner {
   ) {
     super();
     this.initSpriteState();
+    this.registerInputEvent();
+  }
+
+  // 注册键盘监听器
+  registerInputEvent() {
     this.keyboardIoControl.register({
-      'w': () => {
+      w: () => {
         this.sprites.dinos.forEach(dino => {
           dino.actions$.next('jump')
         })
       },
-      's': () => {
-        this.sprites.dinos.forEach(dino => {
-          dino.actions$.next('duck')
-        })
+      s: {
+        up: () => {
+          this.sprites.dinos.forEach(dino => {
+            dino.actions$.next('stopDuck')
+          })
+        },
+        down: () => {
+          this.sprites.dinos.forEach(dino => {
+            dino.actions$.next('duck')
+          })
+        }
       }
     })
   }
@@ -112,16 +124,13 @@ export class DinoGame extends GameRunner {
       newCloudSprite.y = getRandomNumber(20, 80);
       this.sprites.clouds.push(newCloudSprite);
     }
-    this.paintSprites(this.sprites.clouds)
+    this.batchPaintSprites(this.sprites.clouds)
   }
 
   // 绘制恐龙（主角）
   drawDino() {
     const { dinos } = this.sprites;
-    dinos.forEach(dino => {
-      dino.nextFrame();
-      this.paintSprite(dino.sprite, dino.x, dino.y)
-    })
+    this.batchPaintSprites(dinos)
   }
 
   // 绘制分数
@@ -133,7 +142,6 @@ export class DinoGame extends GameRunner {
   clearInstances(actorInstances: Actor[]) {
     for (let i = actorInstances.length - 1; i >= 0; i-- ) {
       const instance = actorInstances[i];
-      instance.nextFrame();
       if (instance.rightX <= 0) {
         actorInstances.splice(i, 1);
       }
@@ -142,8 +150,10 @@ export class DinoGame extends GameRunner {
   }
 
   // 批量绘制
-  paintSprites(spriteInstances: Actor[]) {
+  batchPaintSprites(spriteInstances: Actor[]) {
     spriteInstances.forEach(instance => {
+      instance.nextFrame();
+      // console.log('instance.sprite: ', instance.sprite);
       this.paintSprite(instance.sprite, instance.x, instance.y);
     })
   }

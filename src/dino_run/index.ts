@@ -1,7 +1,6 @@
 import { Injectable, LocContainer } from "./frame/loC/loC";
 import { MapService } from "./services/canvas.service";
 import { getTime } from "./util/time";
-import { BehaviorControl } from "./controls/keyboardIoControl";
 import { DrawerService, SpriteService } from "./services";
 import { BaseBox } from "./base/box";
 import { BaseSprite } from "./base/baseSprite";
