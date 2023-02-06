@@ -2,7 +2,7 @@ import { map, range } from "rxjs";
 import { BaseSprite } from "../base/baseSprite";
 import { Injectable } from "../frame/loC/loC";
 import { DrawerService } from "./drawer.service";
-import { getRandomNumber } from "../util/random";
+import { randInteger } from "../util/random";
 
 type MapInfo = {
   width: number;
@@ -51,10 +51,10 @@ export class MapService {
      */
     let distance = 50;
     const Obstacle = new Array(this.maxObstacles).fill("").map((_, index) => {
-      const height = getRandomNumber(30, 60);
-      const randomDistance = getRandomNumber(100, 200);
+      const height = randInteger(30, 60);
+      const randomDistance = randInteger(100, 200);
       const sprite = new BaseSprite({
-        width: getRandomNumber(20, 40),
+        width: randInteger(20, 40),
         height,
         name: index + '',
         offsetPosition: {

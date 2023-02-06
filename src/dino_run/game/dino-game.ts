@@ -6,10 +6,11 @@ import { GameRunner } from "./game-runner";
 import imageURL from '../assets/sprite.png'
 import { Cloud } from "../actors/cloud";
 import { Actor } from "../actors/actors";
-import { getRandomNumber } from "../util/random";
+import { randBoolean, randInteger } from "../util/random";
 import { Dino } from "../actors/dino";
 import { Injectable } from "../frame/loC/loC";
 import { KeyboardIoControl } from "../controls/keyboardIoControl";
+import { Obstacle } from "../actors/obstacle";
 
 @Injectable()
 export class DinoGame extends GameRunner {
@@ -29,8 +30,9 @@ export class DinoGame extends GameRunner {
   sprites: {
     [props: string]: Actor[];
   } = {
-    clouds: [],
-    dinos: []
+    clouds: [], // 云朵
+    dinos: [], // 恐龙
+    obstacles: [] // 障碍物
   }
 
   constructor(
@@ -76,6 +78,7 @@ export class DinoGame extends GameRunner {
     // 加载出dino
     const dino = new Dino({
       spriteImageData: this.spriteImageData,
+      baseY: this.MapConfig.mapSize.height - GAME_DEFAULT_SETTING.dinoGroundOffset,
     });
     this.sprites.dinos.push(dino)
 
@@ -87,6 +90,9 @@ export class DinoGame extends GameRunner {
     this.drawClouds();
     this.drawDino();
     this.drawScore();
+
+    // 绘制障碍物
+    this.drawObstacle()
     // console.log('当前fps为', this.fps)
   }
 
@@ -118,18 +124,18 @@ export class DinoGame extends GameRunner {
     const { clouds } = this.sprites;
     const { cloudSpawnRate } = this.gameSetting;
 
-    this.clearInstances(this.sprites.clouds);
+    this.clearInstances(clouds);
     if (this.frameCount % cloudSpawnRate === 0) {
       const newCloudSprite = new Cloud({
         spriteImageData: this.spriteImageData,
         speed: 3,
-        baseY: getRandomNumber(20, 80),
+        baseY: randInteger(20, 80),
         // 当需要生成时候，将该sprite放在地图右侧
         baseX: this.MapConfig.mapSize.width,
       });
-      this.sprites.clouds.push(newCloudSprite);
+      clouds.push(newCloudSprite);
     }
-    this.batchPaintSprites(this.sprites.clouds)
+    this.batchPaintSprites(clouds)
   }
 
   // 绘制恐龙（主角）
@@ -141,6 +147,22 @@ export class DinoGame extends GameRunner {
   // 绘制分数
   drawScore() {
 
+  }
+
+  // 绘制障碍物
+  drawObstacle() {
+    const { obstacles } = this.sprites;
+    const { obstacleSpawnRate } = this.gameSetting;
+    this.clearInstances(obstacles);
+    if (this.frameCount % obstacleSpawnRate === 0 && randBoolean()) {
+        const obstacle = new Obstacle({
+          spriteImageData: this.spriteImageData,
+          baseX: this.MapConfig.mapSize.width,
+          baseY: this.MapConfig.mapSize.height,
+        });
+        obstacles.push(obstacle);
+    };
+    this.batchPaintSprites(obstacles);
   }
 
   // 当sprite不可见时候进行清除
@@ -158,7 +180,6 @@ export class DinoGame extends GameRunner {
   batchPaintSprites(spriteInstances: Actor[]) {
     spriteInstances.forEach(instance => {
       instance.nextFrame();
-      // console.log('instance.sprite: ', instance.sprite);
       this.paintSprite(instance.sprite, instance.x, instance.y);
     })
   }

@@ -1,12 +1,12 @@
 import { filter } from "rxjs";
 import { GAME_DEFAULT_SETTING } from "../setting/game.setting";
 import { SPRITES_ENUM } from "../setting/sprites.setting";
-import { getRandomNumber } from "../util/random";
+import { randInteger } from "../util/random";
 import { Actor, IActorParams } from "./actors";
 
 export class Dino extends Actor {
   // 随机的速度系数
-  public randomSpeedCoefficient = getRandomNumber(6, 14) / 10;
+  public randomSpeedCoefficient = randInteger(6, 14) / 10;
   // 速度
   public speed = GAME_DEFAULT_SETTING.bgSpeed;
   public legFrames = 0;
@@ -14,6 +14,9 @@ export class Dino extends Actor {
   private isJumping = false;
   private isDucking = false;
 
+  get y() {
+    return this.baseY - this.height  + this.offsetY
+}
   // 允许的行为
   actions = {
     jump: this.jump.bind(this),
