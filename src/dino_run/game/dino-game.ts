@@ -74,7 +74,9 @@ export class DinoGame extends GameRunner {
     this.spriteImageData = getImageData(this.spriteImage);
     
     // 加载出dino
-    const dino = new Dino(this.spriteImageData);
+    const dino = new Dino({
+      spriteImageData: this.spriteImageData,
+    });
     this.sprites.dinos.push(dino)
 
         // console.log('spriteImage: ', spriteImage);
@@ -118,10 +120,13 @@ export class DinoGame extends GameRunner {
 
     this.clearInstances(this.sprites.clouds);
     if (this.frameCount % cloudSpawnRate === 0) {
-      const newCloudSprite = new Cloud(this.spriteImageData, 3);
-      // 当需要生成时候，将该sprite放在地图右侧
-      newCloudSprite.x = this.MapConfig.mapSize.width;
-      newCloudSprite.y = getRandomNumber(20, 80);
+      const newCloudSprite = new Cloud({
+        spriteImageData: this.spriteImageData,
+        speed: 3,
+        baseY: getRandomNumber(20, 80),
+        // 当需要生成时候，将该sprite放在地图右侧
+        baseX: this.MapConfig.mapSize.width,
+      });
       this.sprites.clouds.push(newCloudSprite);
     }
     this.batchPaintSprites(this.sprites.clouds)

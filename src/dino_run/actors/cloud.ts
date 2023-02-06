@@ -1,7 +1,11 @@
 import { GAME_DEFAULT_SETTING } from "../setting/game.setting";
 import { SPRITES_ENUM } from "../setting/sprites.setting";
 import { getRandomNumber } from "../util/random";
-import { Actor } from "./actors";
+import { Actor, IActorParams } from "./actors";
+
+interface ICloudParams extends IActorParams {
+    speed: number;
+}
 
 export class Cloud extends Actor {
     // 随机的速度系数
@@ -10,14 +14,18 @@ export class Cloud extends Actor {
     public speed = GAME_DEFAULT_SETTING.cloudSpeed;
     
 
-    constructor(spriteImageData: ImageData, speed: number) {
-        super(spriteImageData);
+    constructor(params: ICloudParams ) {
+        super({
+            spriteImageData: params.spriteImageData,
+            baseY: params.baseY,
+            baseX: params.baseX,
+        });
         this.sprite = SPRITES_ENUM.Cloud;
-        this.speed = speed;
+        this.speed = params.speed;
 
     }
     
     nextFrame(): void {
-        this.x -= this.speed * this.randomSpeedCoefficient;
+        this.offsetX -= this.speed * this.randomSpeedCoefficient;
     }
 }

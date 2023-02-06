@@ -2,7 +2,7 @@ import { filter } from "rxjs";
 import { GAME_DEFAULT_SETTING } from "../setting/game.setting";
 import { SPRITES_ENUM } from "../setting/sprites.setting";
 import { getRandomNumber } from "../util/random";
-import { Actor } from "./actors";
+import { Actor, IActorParams } from "./actors";
 
 export class Dino extends Actor {
   // 随机的速度系数
@@ -21,8 +21,8 @@ export class Dino extends Actor {
     stopDuck: this.stopDuck.bind(this),
   };
 
-  constructor(spriteImageData: ImageData) {
-    super(spriteImageData);
+  constructor(params: IActorParams) {
+    super(params);
     this.actions$
       .pipe(filter((action) => !!this.actions[action as never]))
       .subscribe((action) => {
