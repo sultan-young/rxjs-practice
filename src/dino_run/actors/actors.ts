@@ -80,4 +80,21 @@ export abstract class Actor {
 
     // 下一帧调用的函数
     abstract nextFrame(): void;
+
+    // 碰撞检测
+    hits(actors: Actor[]) {
+        return actors.some(actor => {
+            if (!actor) return false;
+
+            if (this.x >= actor.rightX || this.rightX <= actor.x) {
+                return false;
+            }
+
+            if (this.y >= actor.bottomY || this.bottomY <= actor.y) {
+                return false;
+            }
+
+            return true;
+        })
+    }
 }

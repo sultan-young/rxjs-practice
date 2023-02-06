@@ -92,7 +92,14 @@ export class DinoGame extends GameRunner {
     this.drawScore();
 
     // 绘制障碍物
-    this.drawObstacle()
+    this.drawObstacle();
+
+    const { dinos, obstacles} = this.sprites;
+    dinos.forEach(dino => {
+      if(dino.hits([obstacles[0]])) {
+        this.pause()
+      }
+    })
     // console.log('当前fps为', this.fps)
   }
 
