@@ -14,6 +14,14 @@ export class Dino extends Actor {
   private isJumping = false;
   private isDucking = false;
 
+  // 跳起来的速度
+  private lift = GAME_DEFAULT_SETTING.dinoLift;
+
+  // 垂直方向速度
+  private vVelocity: number | null = 0;
+  // 重力
+  private gravity =  GAME_DEFAULT_SETTING.dinoGravity;
+
   get y() {
     return this.baseY - this.height  + this.offsetY
 }
@@ -42,6 +50,17 @@ export class Dino extends Actor {
 
   nextFrame(): void {
     this.legFrames++;
+
+    if (this.vVelocity !== null) {
+        this.vVelocity += this.gravity;
+        this.offsetY += this.vVelocity;
+    }
+
+    if (this.offsetY > 0) {
+        this.vVelocity = null;
+        this.offsetY = 0;
+    }
+
     if (this.legFrames >= this.speed) {
       this.legShow = this.legShow === "Left" ? "Right" : "Left";
       this.legFrames = 0;
@@ -63,6 +82,11 @@ export class Dino extends Actor {
   // 跳
   jump() {
     this.isJumping = true;
+    if (this.offsetY === 0) {
+        this.vVelocity = -this.lift;
+        return true;
+    }
+    return false;
   }
 
   // 蹲下
