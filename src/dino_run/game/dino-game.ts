@@ -11,6 +11,7 @@ import { Dino } from "../actors/dino";
 import { Injectable } from "../frame/loC/loC";
 import { KeyboardIoControl } from "../controls/keyboardIoControl";
 import { Obstacle } from "../actors/obstacle";
+import { Bird } from "../actors/bird";
 
 @Injectable()
 export class DinoGame extends GameRunner {
@@ -32,7 +33,8 @@ export class DinoGame extends GameRunner {
   } = {
     clouds: [], // 云朵
     dinos: [], // 恐龙
-    obstacles: [] // 障碍物
+    obstacles: [], // 障碍物
+    birds: [] // 飞鸟
   }
 
   constructor(
@@ -93,13 +95,14 @@ export class DinoGame extends GameRunner {
 
     // 绘制障碍物
     this.drawObstacle();
+    this.drawBirds()
 
     const { dinos, obstacles} = this.sprites;
-    dinos.forEach(dino => {
-      if(dino.hits([obstacles[0]])) {
-        this.pause()
-      }
-    })
+    // dinos.forEach(dino => {
+    //   if(dino.hits([obstacles[0]])) {
+    //     this.pause()
+    //   }
+    // })
     // console.log('当前fps为', this.fps)
   }
 
@@ -170,6 +173,22 @@ export class DinoGame extends GameRunner {
         obstacles.push(obstacle);
     };
     this.batchPaintSprites(obstacles);
+  }
+
+  // 绘制飞鸟
+  drawBirds() {
+    const { birds } = this.sprites;
+    this.clearInstances(birds);
+    if (this.frameCount % this.gameSetting.birdSpawnRate === 0) {
+      const newBird = new Bird({
+        spriteImageData: this.spriteImageData,
+        speed: GAME_DEFAULT_SETTING.birdSpeed,
+        baseX: this.MapConfig.mapSize.width,
+        baseY: 100,
+      });
+      birds.push(newBird)
+    }
+    this.batchPaintSprites(birds)
   }
 
   // 当sprite不可见时候进行清除

@@ -83,6 +83,11 @@ export abstract class Actor {
 
     // 碰撞检测
     hits(actors: Actor[]) {
+        /**
+         * 检测思路：
+         * 先判断两个矩形是否相交
+         * 如果相交的话，判断两个矩形相交的部分的不透明地方，是否存在重合。
+         */
         return actors.some(actor => {
             if (!actor) return false;
 
