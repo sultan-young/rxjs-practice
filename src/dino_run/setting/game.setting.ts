@@ -1,6 +1,6 @@
 export const GAME_DEFAULT_SETTING = {
-  bgSpeed: 8, // ppf
-  birdSpeed: 7.2, // ppf
+  bgSpeed: 6, // ppf
+  birdSpeed: 8, // ppf
   birdSpawnRate: 240, // fpa
   birdWingsRate: 15, // fpa
   cactusSpawnRate: 50, // fpa 仙人掌生成速度

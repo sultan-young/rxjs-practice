@@ -74,6 +74,11 @@ export class DinoGame extends GameRunner {
             dino.actions$.next('duck')
           })
         }
+      },
+      j: () => {
+        this.sprites.dinos.forEach(dino => {
+          dino.actions$.next('attack')
+        })
       }
     })
   }
@@ -207,6 +212,7 @@ export class DinoGame extends GameRunner {
   // 绘制飞鸟
   drawBirds() {
     const { birds } = this.sprites;
+    
     this.clearInstances(birds);
     if (this.frameCount % this.gameSetting.birdSpawnRate === 0) {
       const newBird = new Bird({

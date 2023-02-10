@@ -18,14 +18,15 @@ export class Bird extends Actor {
     constructor(params: IBirdParams ) {
         super({
             spriteImageData: params.spriteImageData,
-            baseY: params.baseY,
             baseX: params.baseX,
+            baseY: 75
         });
         this.sprite = SPRITES_ENUM.BirdDown;
         this.speed = params.speed;
     }
     
     nextFrame(): void {
+        console.log(this.speed, 1)
         this.currentFrameCount++;
         if (this.currentFrameCount % this.birdWingsRate === 0) {
             this.sprite = this.sprite === SPRITES_ENUM.BirdUp ? SPRITES_ENUM.BirdDown : SPRITES_ENUM.BirdUp;

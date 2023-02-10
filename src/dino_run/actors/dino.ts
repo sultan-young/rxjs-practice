@@ -24,20 +24,13 @@ export class Dino extends Actor {
   get y() {
     return this.baseY - this.height  + this.offsetY
 }
-  // 允许的行为
-  actions = {
-    jump: this.jump.bind(this),
-    duck: this.duck.bind(this),
-    stopDuck: this.stopDuck.bind(this),
-  };
-
   constructor(params: IActorParams) {
     super(params);
     this.actions$
-      .pipe(filter((action) => !!this.actions[action as never]))
+      .pipe(filter((action) => !!(this as any)[action]))
       .subscribe((action) => {
         // @ts-ignore
-        this.actions[action]();
+        this[action]();
       });
 
     this.reset();
@@ -52,7 +45,6 @@ export class Dino extends Actor {
 
     if (this.vVelocity !== null) {
         this.vVelocity += this.gravity;
-        console.log('this.vVelocity: ', this.vVelocity);
         this.offsetY += this.vVelocity;
     }
 
@@ -96,5 +88,9 @@ export class Dino extends Actor {
   // 停止蹲下
   stopDuck() {
     this.isDucking = false;
+  }
+
+  attack() {
+    console.log('a')
   }
 }
