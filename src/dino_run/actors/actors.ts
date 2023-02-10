@@ -94,6 +94,29 @@ export abstract class Actor {
                 return false;
             }
 
+            if (this.alphaMap && actor.alphaMap) {
+                const startY = Math.round(Math.max(this.y, actor.y))
+                const endY = Math.round(Math.min(this.bottomY, actor.bottomY))
+                const startX = Math.round(Math.max(this.x, actor.x))
+                const endX = Math.round(Math.min(this.rightX, actor.rightX))
+                const thisY = Math.round(this.y)
+                const actorY = Math.round(actor.y)
+                const thisX = Math.round(this.x)
+                const actorX = Math.round(actor.x)
+        
+                for (let y = startY; y < endY; y++) {
+                  for (let x = startX; x < endX; x++) {
+                    // 判断两个sprite的不透明数组是否有重合的地方
+                    if (this.alphaMap[y - thisY][x - thisX] === 0) continue
+                    if (actor.alphaMap[y - actorY][x - actorX] === 0) continue
+        
+                    return true
+                  }
+                }
+        
+                return false
+              }
+        
             return true;
         })
     }

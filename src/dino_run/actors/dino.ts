@@ -11,7 +11,6 @@ export class Dino extends Actor {
   public speed = GAME_DEFAULT_SETTING.bgSpeed;
   public legFrames = 0;
   public legShow: "Left" | "Right" = "Left";
-  private isJumping = false;
   private isDucking = false;
 
   // 跳起来的速度
@@ -53,6 +52,7 @@ export class Dino extends Actor {
 
     if (this.vVelocity !== null) {
         this.vVelocity += this.gravity;
+        console.log('this.vVelocity: ', this.vVelocity);
         this.offsetY += this.vVelocity;
     }
 
@@ -81,7 +81,6 @@ export class Dino extends Actor {
 
   // 跳
   jump() {
-    this.isJumping = true;
     if (this.offsetY === 0) {
         this.vVelocity = -this.lift;
         return true;
