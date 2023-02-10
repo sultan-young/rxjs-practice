@@ -1,9 +1,10 @@
 import { GAME_DEFAULT_SETTING } from "../setting/game.setting";
 import { SPRITES_ENUM, SPRITE_LOCATION } from "../setting/sprites.setting";
 import { setImageAlphaArrCurrying, getImageData } from "../util/canvas";
-import { loadImage } from "../util/load-assets";
+import { loadFont, loadImage } from "../util/load-assets";
 import { GameRunner } from "./game-runner";
 import imageURL from '../assets/sprite.png'
+import font from '../assets/PressStart2P-Regular.ttf'
 import { Cloud } from "../actors/cloud";
 import { Actor } from "../actors/actors";
 import { randBoolean, randInteger } from "../util/random";
@@ -22,6 +23,8 @@ export class DinoGame extends GameRunner {
 
   // 游戏配置
   gameSetting = GAME_DEFAULT_SETTING;
+  // 游戏分数
+  score = 0;
 
   // 游戏状态
   state = {
@@ -82,6 +85,7 @@ export class DinoGame extends GameRunner {
 
   override async preLoad(): Promise<void> {
     this.spriteImage = await loadImage(imageURL);
+    loadFont(font, 'PressStart2P'),
     this.spriteImageData = getImageData(this.spriteImage);
     
     // 加载出dino
@@ -167,7 +171,21 @@ export class DinoGame extends GameRunner {
 
   // 绘制分数
   drawScore() {
+    if (this.frameCount % GAME_DEFAULT_SETTING.scoreIncreaseRate === 0) {
+      this.score++;
+    }
 
+    const fontSize = 12
+    this.ctx.fillStyle = '#f7f7f7'
+    this.ctx.fillRect(this.MapConfig.mapSize.width - fontSize * 5, 0, fontSize * 5, fontSize)
+
+    this.paintText((this.score + '').padStart(5, '0'), this.MapConfig.mapSize.width - 20, 20, {
+      font: 'PressStart2P',
+      size: `${fontSize}px`,
+      align: 'right',
+      baseline: 'top',
+      color: '#535353',
+    })
   }
 
   // 绘制障碍物
@@ -226,5 +244,16 @@ export class DinoGame extends GameRunner {
 
     // 图片 来源图片偏移xy 来源图片宽高 在画布上绘制的便宜xy 在画布上绘制的宽高wh
     this.ctx.drawImage(this.spriteImage, sx, sy, w, h, dx, dy, w / 2, h / 2)
+  }
+
+  paintText(text: string, x: number, y: number, opts: any) {
+    const { font = 'serif', size = '12px' } = opts
+    const { ctx } = this
+
+    ctx.font = `${size} ${font}`
+    if (opts.align) ctx.textAlign = opts.align
+    if (opts.baseline) ctx.textBaseline = opts.baseline
+    if (opts.color) ctx.fillStyle = opts.color
+    ctx.fillText(text, x, y)
   }
 }
