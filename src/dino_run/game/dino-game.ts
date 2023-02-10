@@ -18,6 +18,8 @@ export class DinoGame extends GameRunner {
   spriteImage!: HTMLImageElement;
   spriteImageData!: ImageData;
 
+  invincible = false; // 是否处于无敌
+
   // 游戏配置
   gameSetting = GAME_DEFAULT_SETTING;
 
@@ -86,6 +88,7 @@ export class DinoGame extends GameRunner {
     const dino = new Dino({
       spriteImageData: this.spriteImageData,
       baseY: this.MapConfig.mapSize.height - GAME_DEFAULT_SETTING.dinoGroundOffset,
+      baseX: 50,
     });
     this.sprites.dinos.push(dino)
 
@@ -104,11 +107,13 @@ export class DinoGame extends GameRunner {
 
       // 障碍物
     const { dinos, birds, cactus} = this.sprites;
-    dinos.forEach(dino => {
-      if(dino.hits([birds[0], cactus[0]])) {
-        this.pause()
-      }
-    })
+    if (!this.invincible) {
+      dinos.forEach(dino => {
+        if(dino.hits([birds[0], cactus[0]])) {
+          this.pause()
+        }
+      })
+    }
     // console.log('当前fps为', this.fps)
   }
 
