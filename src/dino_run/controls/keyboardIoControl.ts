@@ -39,8 +39,8 @@ export class KeyboardIoControl implements Control {
     // 监听按下事件
     this.keydown$
       .pipe(
+        filter((event) => !!this.strategy[event.key]),
         tap((event) => {
-          console.log('event: ', event);
           const callBack = this.strategy[event.key];
           if (typeof callBack === "function") {
             callBack();

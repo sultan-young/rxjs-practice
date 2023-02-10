@@ -10,7 +10,7 @@ import { randBoolean, randInteger } from "../util/random";
 import { Dino } from "../actors/dino";
 import { Injectable } from "../frame/loC/loC";
 import { KeyboardIoControl } from "../controls/keyboardIoControl";
-import { Obstacle } from "../actors/obstacle";
+import { Cactus } from "../actors/cactus";
 import { Bird } from "../actors/bird";
 
 @Injectable()
@@ -99,7 +99,7 @@ export class DinoGame extends GameRunner {
     this.drawScore();
 
     // 绘制障碍物
-    this.drawObstacle();
+    this.drawCactus();
     this.drawBirds()
 
       // 障碍物
@@ -166,17 +166,17 @@ export class DinoGame extends GameRunner {
   }
 
   // 绘制障碍物
-  drawObstacle() {
+  drawCactus() {
     const { cactus } = this.sprites;
-    const { obstacleSpawnRate } = this.gameSetting;
+    const { cactusSpawnRate } = this.gameSetting;
     this.clearInstances(cactus);
-    if (this.frameCount % obstacleSpawnRate === 0 && randBoolean()) {
-        const obstacle = new Obstacle({
+    if (this.frameCount % cactusSpawnRate === 0 && randBoolean()) {
+        const newCactus = new Cactus({
           spriteImageData: this.spriteImageData,
           baseX: this.MapConfig.mapSize.width,
           baseY: this.MapConfig.mapSize.height,
         });
-        cactus.push(obstacle);
+        cactus.push(newCactus);
     };
     this.batchPaintSprites(cactus);
   }
@@ -190,7 +190,6 @@ export class DinoGame extends GameRunner {
         spriteImageData: this.spriteImageData,
         speed: GAME_DEFAULT_SETTING.birdSpeed,
         baseX: this.MapConfig.mapSize.width,
-        baseY: 100,
       });
       birds.push(newBird)
     }

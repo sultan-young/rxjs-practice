@@ -5,7 +5,7 @@ import { Actor, IActorParams } from "./actors";
 
 const VARIANTS = ['Cactus', 'CactusDouble', 'CactusDoubleB', 'CactusTriple']
 
-export class Obstacle extends Actor {
+export class Cactus extends Actor {
     // 速度
     public speed = GAME_DEFAULT_SETTING.bgSpeed;
     
