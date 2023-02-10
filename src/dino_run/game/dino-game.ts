@@ -33,8 +33,8 @@ export class DinoGame extends GameRunner {
   } = {
     clouds: [], // 云朵
     dinos: [], // 恐龙
-    obstacles: [], // 障碍物
-    birds: [] // 飞鸟
+    birds: [], // 飞鸟
+    cactus: [], // 仙人掌
   }
 
   constructor(
@@ -49,6 +49,11 @@ export class DinoGame extends GameRunner {
   registerInputEvent() {
     this.keyboardIoControl.register({
       w: () => {
+        this.sprites.dinos.forEach(dino => {
+          dino.actions$.next('jump')
+        })
+      },
+      ' ': () => {
         this.sprites.dinos.forEach(dino => {
           dino.actions$.next('jump')
         })
@@ -97,12 +102,13 @@ export class DinoGame extends GameRunner {
     this.drawObstacle();
     this.drawBirds()
 
-    const { dinos, obstacles} = this.sprites;
-    // dinos.forEach(dino => {
-    //   if(dino.hits([obstacles[0]])) {
-    //     this.pause()
-    //   }
-    // })
+      // 障碍物
+    const { dinos, birds, cactus} = this.sprites;
+    dinos.forEach(dino => {
+      if(dino.hits([birds[0], cactus[0]])) {
+        this.pause()
+      }
+    })
     // console.log('当前fps为', this.fps)
   }
 
@@ -161,18 +167,18 @@ export class DinoGame extends GameRunner {
 
   // 绘制障碍物
   drawObstacle() {
-    const { obstacles } = this.sprites;
+    const { cactus } = this.sprites;
     const { obstacleSpawnRate } = this.gameSetting;
-    this.clearInstances(obstacles);
+    this.clearInstances(cactus);
     if (this.frameCount % obstacleSpawnRate === 0 && randBoolean()) {
         const obstacle = new Obstacle({
           spriteImageData: this.spriteImageData,
           baseX: this.MapConfig.mapSize.width,
           baseY: this.MapConfig.mapSize.height,
         });
-        obstacles.push(obstacle);
+        cactus.push(obstacle);
     };
-    this.batchPaintSprites(obstacles);
+    this.batchPaintSprites(cactus);
   }
 
   // 绘制飞鸟
