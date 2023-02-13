@@ -5,6 +5,7 @@ export function createCanvas(canvasSize: ClientSize) {
   const { width, height } = canvasSize;
   const canvas = document.createElement("canvas");
   const ctx = canvas.getContext("2d")!;
+  canvas.innerHTML = "您的浏览器不支持canvas，请更换高级浏览器";
   const scale = window.devicePixelRatio;
   canvas.style.width = width + "px";
   canvas.style.height = height + "px";

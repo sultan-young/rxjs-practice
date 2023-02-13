@@ -1,14 +1,13 @@
 import 'reflect-metadata'
 
 enum InjectableType {
-  Sprite,
-  Service,
+  Sprite = 'Sprite',
+  Service = 'Service',
 }
 
 export interface anyObject {
   [prop: string]: any
 }
-
 
 export const Inject = (service: any) => {
   return (target: any, key: string, descriptor: number) => {
@@ -29,7 +28,7 @@ export const Input  = <T>(property?: T) => {
 
 
 // 一个装饰器，标明该类是一个sprite，不可直接注入到service中，但是可以在Sprite类中注入service
-export const Sprite = (metadata?: IInjectable): ClassDecorator => {
+export const Sprite = (): ClassDecorator => {
   
   // target 为类的构造函数
   return (target: any) => {
@@ -42,22 +41,29 @@ export const Sprite = (metadata?: IInjectable): ClassDecorator => {
 export const Injectable = (metadata?: IInjectable): ClassDecorator => {
   return (target) => {
     Reflect.defineMetadata('InjectableType', InjectableType.Service, target);
+    Reflect.defineMetadata('Injectable', metadata, target);
     // console.log(1111, Reflect.getMetadata("design:paramtypes", target));
   };
 };
 
+
 export class LocContainer {
-  group = new Map();
+  static shareInjectableService = new Map();
   // 获取所有注入的服务
   static get<T>(target: Type<T>, params?: anyObject): T {
+    const InjectableOption = Reflect.getMetadata('Injectable', target) as IInjectable;
+    const isRootService = InjectableOption?.providedIn === 'root';
+
+    // 如果为root服务，尝试直接取出
+    if (isRootService && LocContainer.shareInjectableService.get(target)) {
+        return LocContainer.shareInjectableService.get(target);
+    }
+
+    // 获取当前类的依赖项
     const providers = Reflect.getMetadata("design:paramtypes", target) as Type[] || []; // [OtherService]
-    const args = providers.map((provider: Type) => {
-        if (provider.length) {
-            return LocContainer.get(provider)
-        } else {
-            return new provider();
-        }
-    });
+
+    // 递归的获取类依赖项中的依赖
+    const args = providers.map((provider: Type) => LocContainer.get(provider));
     const instance = new target(...args) as any;
     const propKeys: string[] = Reflect.getMetadata('sprite:input', (instance as any).constructor) || [];
     if (params) {
@@ -73,6 +79,12 @@ export class LocContainer {
     if (instance.onInit && typeof instance.onInit === 'function') {
       instance.onInit()
     }
+
+    // root服务存入shareInjectableService 
+    if (isRootService) {
+      LocContainer.shareInjectableService.set(target, instance)
+    }
+
     return instance;
   }
 }

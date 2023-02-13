@@ -79,9 +79,7 @@ export abstract class Actor implements OnInit{
     onInit(): void {
         if (!getSpriteAlphaMap) {
             getSpriteAlphaMap = setImageAlphaArrCurrying(this.spriteImageData, SPRITE_LOCATION);
-            console.log('getSpriteAlphaMap: ', getSpriteAlphaMap, this.spriteImageData, this);
         }
-        console.log('init')
     }
 
     // private actionHooks = {

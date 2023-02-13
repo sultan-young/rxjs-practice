@@ -4,6 +4,7 @@ import { SPRITES_ENUM } from "../setting/sprites.setting";
 import { randInteger } from "../util/random";
 import { Actor, IActorParams } from "./actors";
 import { Sprite } from "../core/loC/loC";
+import { DrawerService } from "../services";
 
 @Sprite()
 export class Dino extends Actor {
@@ -26,7 +27,9 @@ export class Dino extends Actor {
   get y() {
     return this.baseY - this.height  + this.offsetY
 }
-  constructor() {
+  constructor(
+    private drawService: DrawerService,
+  ) {
     super();
     this.actions$
       .pipe(filter((action) => !!(this as any)[action]))
@@ -34,7 +37,6 @@ export class Dino extends Actor {
         // @ts-ignore
         this[action]();
       });
-
     this.reset();
   }
 

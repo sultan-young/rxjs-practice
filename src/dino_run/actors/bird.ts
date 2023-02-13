@@ -11,7 +11,7 @@ interface IBirdParams extends IActorParams {
 
 export class Bird extends Actor {
     // 随机的速度系数
-    public randomSpeedCoefficient = randInteger(6, 14) / 10;
+    public randomSpeedCoefficient = randInteger(10, 14) / 10;
     // 速度
     @Input() public speed = GAME_DEFAULT_SETTING.birdSpeed;
     private birdWingsRate = GAME_DEFAULT_SETTING.birdWingsRate;
@@ -23,7 +23,6 @@ export class Bird extends Actor {
     }
     
     nextFrame(): void {
-        console.log(this.speed, 1)
         this.currentFrameCount++;
         if (this.currentFrameCount % this.birdWingsRate === 0) {
             this.sprite = this.sprite === SPRITES_ENUM.BirdUp ? SPRITES_ENUM.BirdDown : SPRITES_ENUM.BirdUp;

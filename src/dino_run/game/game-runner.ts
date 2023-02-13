@@ -1,3 +1,5 @@
+import { Injectable } from "../core/loC/loC";
+import { DrawerService } from "../services";
 import { createCanvas } from "../util/canvas";
 
 export interface MapConfig {
@@ -11,6 +13,7 @@ export interface ClientSize {
 }
 
 // 通用game类
+@Injectable()
 export abstract class GameRunner {
   public canvas!: HTMLCanvasElement;
   public ctx!: CanvasRenderingContext2D;
@@ -32,12 +35,8 @@ export abstract class GameRunner {
     lastFrameTime: 0,
   };
 
-  constructor(gameDefaultConfig?: MapConfig) {
+  constructor() {
     this.gameLoop = this.gameLoop.bind(this);
-
-    if (gameDefaultConfig) {
-      Object.assign(this, gameDefaultConfig);
-    }
   }
 
   // 预加载
