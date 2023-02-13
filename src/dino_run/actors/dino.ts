@@ -3,7 +3,9 @@ import { GAME_DEFAULT_SETTING } from "../setting/game.setting";
 import { SPRITES_ENUM } from "../setting/sprites.setting";
 import { randInteger } from "../util/random";
 import { Actor, IActorParams } from "./actors";
+import { Sprite } from "../frame/loC/loC";
 
+@Sprite()
 export class Dino extends Actor {
   // 随机的速度系数
   public randomSpeedCoefficient = randInteger(6, 14) / 10;

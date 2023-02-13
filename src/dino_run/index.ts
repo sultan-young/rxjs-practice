@@ -9,4 +9,4 @@ import { DinoGame } from "./game/dino-game";
 
 const game = LocContainer.get(DinoGame);
 game.start();
-// game.invincible = true;
+game.invincible = true;

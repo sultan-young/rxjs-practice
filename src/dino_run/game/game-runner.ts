@@ -84,4 +84,5 @@ export abstract class GameRunner {
   get fps() {
     return this.gameState.fps;
   }
+  
 }

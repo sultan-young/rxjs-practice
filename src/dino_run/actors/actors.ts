@@ -1,6 +1,7 @@
 import { BehaviorSubject, Subject } from "rxjs";
 import { SPRITES_ENUM, SPRITE_LOCATION } from "../setting/sprites.setting";
 import { setImageAlphaArrCurrying } from "../util/canvas";
+import { Input, Sprite } from "../frame/loC/loC";
 
 export interface IActorParams {
     spriteImageData: ImageData,
@@ -11,11 +12,17 @@ export interface IActorParams {
 
 let getSpriteAlphaMap!: (key: string)=> number[][];
 
+@Sprite()
 export abstract class Actor {
+    // sprite初始开始绘制的位置
+    @Input() public baseX = 0;
+    @Input() public baseY = 0;
+
     public height = 0;
     public width = 0;
 
-    public baseX = 0;
+    
+
     public offsetX = 0;
     public _x = 0;
     get x() {
@@ -27,8 +34,7 @@ export abstract class Actor {
         return this.baseY + this.offsetY
     }
 
-    // sprite初始开始绘制的位置
-    public baseY = 0;
+    
     // sprite便宜量，用来实现飞行，跳跃等
     public offsetY = 0;
 

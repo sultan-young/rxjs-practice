@@ -1,3 +1,4 @@
+import { DrawerService } from "../services";
 import { GAME_DEFAULT_SETTING } from "../setting/game.setting";
 import { SPRITES_ENUM } from "../setting/sprites.setting";
 import { randInteger } from "../util/random";
@@ -32,5 +33,7 @@ export class Bird extends Actor {
             this.sprite = this.sprite === SPRITES_ENUM.BirdUp ? SPRITES_ENUM.BirdDown : SPRITES_ENUM.BirdUp;
         }
         this.offsetX -= this.speed * this.randomSpeedCoefficient;
+
+        
     }
 }
