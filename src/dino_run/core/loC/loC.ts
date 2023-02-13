@@ -12,12 +12,6 @@ export interface anyObject {
 
 export const Inject = (service: any) => {
   return (target: any, key: string, descriptor: number) => {
-    // console.log(Reflect.getMetadata("design:type", target, key), key);
-    // console.log(target, key, descriptor);
-
-    // Reflect.get
-    // console.log(Reflect.getMetadata('design:type', target, key))
-    // return descriptor;
   };
 };
 export class InjectionToken {}
@@ -40,13 +34,12 @@ export const Sprite = (metadata?: IInjectable): ClassDecorator => {
   // target 为类的构造函数
   return (target: any) => {
     Reflect.defineMetadata('InjectableType', InjectableType.Sprite, target);
-    console.log(Reflect.getMetadata('sprite:input', target), 222);
+    // console.log(Reflect.getMetadata('sprite:input', target), 222);
   }
 }
 
 // 一个装饰器，标明该类是一个service，可以被注入到Sprite和Service中
 export const Injectable = (metadata?: IInjectable): ClassDecorator => {
-  console.log("metadata:111 ", metadata);
   return (target) => {
     Reflect.defineMetadata('InjectableType', InjectableType.Service, target);
     // console.log(1111, Reflect.getMetadata("design:paramtypes", target));
@@ -57,7 +50,7 @@ export class LocContainer {
   group = new Map();
   // 获取所有注入的服务
   static get<T>(target: Type<T>, params?: anyObject): T {
-    const providers = Reflect.getMetadata("design:paramtypes", target) as Type[]; // [OtherService]
+    const providers = Reflect.getMetadata("design:paramtypes", target) as Type[] || []; // [OtherService]
     const args = providers.map((provider: Type) => {
         if (provider.length) {
             return LocContainer.get(provider)
@@ -65,8 +58,22 @@ export class LocContainer {
             return new provider();
         }
     });
-    console.log(args, target)
-    return new target(...args);
+    const instance = new target(...args) as any;
+    const propKeys: string[] = Reflect.getMetadata('sprite:input', (instance as any).constructor) || [];
+    if (params) {
+      // 将props添加到实例中
+      propKeys.forEach(prop => {
+        if (params[prop]) {
+          instance[prop] = params[prop];
+        }
+      })
+    };
+
+    // 触发init生命周期
+    if (instance.onInit && typeof instance.onInit === 'function') {
+      instance.onInit()
+    }
+    return instance;
   }
 }
 

@@ -1,6 +1,6 @@
 import { map, range } from "rxjs";
 import { BaseSprite } from "../base/baseSprite";
-import { Injectable } from "../frame/loC/loC";
+import { Injectable } from "../core/loC/loC";
 import { DrawerService } from "./drawer.service";
 import { randInteger } from "../util/random";
 

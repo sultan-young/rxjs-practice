@@ -13,12 +13,8 @@ export class Cactus extends Actor {
         return this.baseY - this.height - 2
     }
 
-    constructor(params: IActorParams ) {
-        super({
-            spriteImageData: params.spriteImageData,
-            baseY: params.baseY,
-            baseX: params.baseX,
-        });
+    constructor() {
+        super();
         this.sprite = randItem(VARIANTS)
     }
     

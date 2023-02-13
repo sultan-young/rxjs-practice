@@ -1,3 +1,4 @@
+import { Input } from "../core/loC/loC";
 import { DrawerService } from "../services";
 import { GAME_DEFAULT_SETTING } from "../setting/game.setting";
 import { SPRITES_ENUM } from "../setting/sprites.setting";
@@ -12,18 +13,13 @@ export class Bird extends Actor {
     // 随机的速度系数
     public randomSpeedCoefficient = randInteger(6, 14) / 10;
     // 速度
-    public speed = GAME_DEFAULT_SETTING.birdSpeed;
+    @Input() public speed = GAME_DEFAULT_SETTING.birdSpeed;
     private birdWingsRate = GAME_DEFAULT_SETTING.birdWingsRate;
     private currentFrameCount = 0;
     
-    constructor(params: IBirdParams ) {
-        super({
-            spriteImageData: params.spriteImageData,
-            baseX: params.baseX,
-            baseY: 75
-        });
+    constructor() {
+        super();
         this.sprite = SPRITES_ENUM.BirdDown;
-        this.speed = params.speed;
     }
     
     nextFrame(): void {

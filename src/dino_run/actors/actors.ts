@@ -1,7 +1,8 @@
 import { BehaviorSubject, Subject } from "rxjs";
 import { SPRITES_ENUM, SPRITE_LOCATION } from "../setting/sprites.setting";
 import { setImageAlphaArrCurrying } from "../util/canvas";
-import { Input, Sprite } from "../frame/loC/loC";
+import { Input, Sprite } from "../core/loC/loC";
+import { OnInit } from "../core/interface/lifecycle_hooks";
 
 export interface IActorParams {
     spriteImageData: ImageData,
@@ -13,10 +14,11 @@ export interface IActorParams {
 let getSpriteAlphaMap!: (key: string)=> number[][];
 
 @Sprite()
-export abstract class Actor {
+export abstract class Actor implements OnInit{
     // sprite初始开始绘制的位置
     @Input() public baseX = 0;
     @Input() public baseY = 0;
+    @Input() public spriteImageData!: ImageData;
 
     public height = 0;
     public width = 0;
@@ -52,7 +54,9 @@ export abstract class Actor {
     set sprite(name: SPRITES_ENUM) {
         this.height = SPRITE_LOCATION[name].h / 2;
         this.width = SPRITE_LOCATION[name].w / 2;
-        this.alphaMap = getSpriteAlphaMap(name);
+        if (getSpriteAlphaMap) {
+            this.alphaMap = getSpriteAlphaMap(name);
+        }
         this._sprite = name;
     }
     get sprite() {
@@ -69,11 +73,15 @@ export abstract class Actor {
     }
 
 
-    constructor(params: IActorParams) {
-        Object.assign(this, params)
+    constructor() {
+    }
+
+    onInit(): void {
         if (!getSpriteAlphaMap) {
-            getSpriteAlphaMap = setImageAlphaArrCurrying(params.spriteImageData, SPRITE_LOCATION);
+            getSpriteAlphaMap = setImageAlphaArrCurrying(this.spriteImageData, SPRITE_LOCATION);
+            console.log('getSpriteAlphaMap: ', getSpriteAlphaMap, this.spriteImageData, this);
         }
+        console.log('init')
     }
 
     // private actionHooks = {

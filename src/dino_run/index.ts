@@ -1,9 +1,7 @@
-import { Injectable, LocContainer } from "./frame/loC/loC";
+import { Injectable, LocContainer } from "./core/loC/loC";
 import { MapService } from "./services/canvas.service";
 import { getTime } from "./util/time";
 import { DrawerService } from "./services";
-import { BaseBox } from "./base/box";
-import { BaseSprite } from "./base/baseSprite";
 import { animationFrameScheduler, of, repeat, scheduled, tap, timer } from "rxjs";
 import { DinoGame } from "./game/dino-game";
 

@@ -3,7 +3,7 @@ import { GAME_DEFAULT_SETTING } from "../setting/game.setting";
 import { SPRITES_ENUM } from "../setting/sprites.setting";
 import { randInteger } from "../util/random";
 import { Actor, IActorParams } from "./actors";
-import { Sprite } from "../frame/loC/loC";
+import { Sprite } from "../core/loC/loC";
 
 @Sprite()
 export class Dino extends Actor {
@@ -26,8 +26,8 @@ export class Dino extends Actor {
   get y() {
     return this.baseY - this.height  + this.offsetY
 }
-  constructor(params: IActorParams) {
-    super(params);
+  constructor() {
+    super();
     this.actions$
       .pipe(filter((action) => !!(this as any)[action]))
       .subscribe((action) => {

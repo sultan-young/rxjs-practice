@@ -1,5 +1,5 @@
 import { MapService } from "./canvas.service";
-import { Injectable } from "../frame/loC/loC";
+import { Injectable } from "../core/loC/loC";
 import { BaseSprite } from "../base/baseSprite";
 import { createCanvas } from "../util/canvas";
 

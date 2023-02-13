@@ -9,7 +9,7 @@ import { Cloud } from "../actors/cloud";
 import { Actor } from "../actors/actors";
 import { randBoolean, randInteger } from "../util/random";
 import { Dino } from "../actors/dino";
-import { Injectable } from "../frame/loC/loC";
+import { Injectable, LocContainer } from "../core/loC/loC";
 import { KeyboardIoControl } from "../controls/keyboardIoControl";
 import { Cactus } from "../actors/cactus";
 import { Bird } from "../actors/bird";
@@ -94,13 +94,12 @@ export class DinoGame extends GameRunner {
     this.spriteImageData = getImageData(this.spriteImage);
     
     // 加载出dino
-    const dino = new Dino({
+    const dino = LocContainer.get(Dino, {
       spriteImageData: this.spriteImageData,
       baseY: this.MapConfig.mapSize.height - GAME_DEFAULT_SETTING.dinoGroundOffset,
       baseX: 50,
-    });
+    })
     this.sprites.dinos.push(dino)
-
         // console.log('spriteImage: ', spriteImage);
   }
   draw(): void {
@@ -156,13 +155,13 @@ export class DinoGame extends GameRunner {
 
     this.clearInstances(clouds);
     if (this.frameCount % cloudSpawnRate === 0) {
-      const newCloudSprite = new Cloud({
+      const newCloudSprite = LocContainer.get(Cloud, {
         spriteImageData: this.spriteImageData,
         speed: 3,
         baseY: randInteger(20, 80),
         // 当需要生成时候，将该sprite放在地图右侧
         baseX: this.MapConfig.mapSize.width,
-      });
+      })
       clouds.push(newCloudSprite);
     }
     this.batchPaintSprites(clouds)
@@ -199,7 +198,7 @@ export class DinoGame extends GameRunner {
     const { cactusSpawnRate } = this.gameSetting;
     this.clearInstances(cactus);
     if (this.frameCount % cactusSpawnRate === 0 && randBoolean()) {
-        const newCactus = new Cactus({
+        const newCactus = LocContainer.get(Cactus, {
           spriteImageData: this.spriteImageData,
           baseX: this.MapConfig.mapSize.width,
           baseY: this.MapConfig.mapSize.height,
@@ -215,7 +214,7 @@ export class DinoGame extends GameRunner {
     
     this.clearInstances(birds);
     if (this.frameCount % this.gameSetting.birdSpawnRate === 0) {
-      const newBird = new Bird({
+      const newBird = LocContainer.get(Bird, {
         spriteImageData: this.spriteImageData,
         speed: GAME_DEFAULT_SETTING.birdSpeed,
         baseX: this.MapConfig.mapSize.width,
