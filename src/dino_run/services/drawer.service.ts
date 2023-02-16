@@ -1,5 +1,5 @@
 import { CanvasService } from ".";
-import { Injectable } from "../core/loC/loC";
+import { Injectable } from "../core/IoC/IoC";
 import { createCanvas } from "../util/canvas";
 import { v4 as uuid } from 'uuid'
 

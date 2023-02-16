@@ -1,5 +1,5 @@
 import { filter, fromEvent, tap } from "rxjs";
-import { Injectable } from "../core/loC/loC";
+import { Injectable } from "../core/IoC/IoC";
 
 type fnc = () => void;
 interface Strategy {

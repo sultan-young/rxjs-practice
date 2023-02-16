@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import { Type, Injectable, LocContainer } from "./loC";
+import { Type, Injectable, IocContainer } from "./IoC";
 
 // 场景
 @Injectable({
@@ -32,4 +32,4 @@ class Man {
   }
 }
 
-LocContainer.get(Man).releaseTrick();
+IocContainer.get(Man).releaseTrick();

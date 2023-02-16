@@ -1,4 +1,4 @@
-import { Injectable } from "../core/loC/loC";
+import { Injectable } from "../core/IoC/IoC";
 import { DrawerService } from "../services";
 import { createCanvas } from "../util/canvas";
 

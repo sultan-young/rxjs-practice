@@ -1,7 +1,7 @@
 import { BehaviorSubject, Subject } from "rxjs";
 import { SPRITES_ENUM, SPRITE_LOCATION } from "../setting/sprites.setting";
 import { setImageAlphaArrCurrying } from "../util/canvas";
-import { Input, Sprite } from "../core/loC/loC";
+import { Input, Sprite } from "../core/IoC/IoC";
 import { OnInit } from "../core/interface/lifecycle_hooks";
 
 export interface IActorParams {

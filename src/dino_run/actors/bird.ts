@@ -1,4 +1,4 @@
-import { Input } from "../core/loC/loC";
+import { Input } from "../core/IoC/IoC";
 import { DrawerService } from "../services";
 import { GAME_DEFAULT_SETTING } from "../setting/game.setting";
 import { SPRITES_ENUM } from "../setting/sprites.setting";

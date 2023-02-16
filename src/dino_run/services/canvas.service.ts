@@ -1,5 +1,5 @@
 import { map, range } from "rxjs";
-import { Injectable } from "../core/loC/loC";
+import { Injectable } from "../core/IoC/IoC";
 import { DrawerService } from "./drawer.service";
 import { randInteger } from "../util/random";
 import { createCanvas } from "../util/canvas";

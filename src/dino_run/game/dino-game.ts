@@ -9,7 +9,7 @@ import { Cloud } from "../actors/cloud";
 import { Actor } from "../actors/actors";
 import { randBoolean, randInteger } from "../util/random";
 import { Dino } from "../actors/dino";
-import { Injectable, LocContainer } from "../core/loC/loC";
+import { Injectable, IocContainer } from "../core/IoC/IoC";
 import { KeyboardIoControl } from "../controls/keyboardIoControl";
 import { Cactus } from "../actors/cactus";
 import { Bird } from "../actors/bird";
@@ -99,7 +99,7 @@ export class DinoGame extends GameRunner {
       (this.spriteImageData = getImageData(this.spriteImage));
 
     // 加载出dino
-    const dino = LocContainer.get(Dino, {
+    const dino = IocContainer.get(Dino, {
       spriteImageData: this.spriteImageData,
       baseY:
         this.MapConfig.mapSize.height - GAME_DEFAULT_SETTING.dinoGroundOffset,
@@ -170,7 +170,7 @@ export class DinoGame extends GameRunner {
 
     this.clearInstances(clouds);
     if (this.frameCount % cloudSpawnRate === 0) {
-      const newCloudSprite = LocContainer.get(Cloud, {
+      const newCloudSprite = IocContainer.get(Cloud, {
         spriteImageData: this.spriteImageData,
         speed: 3,
         baseY: randInteger(20, 80),
@@ -223,7 +223,7 @@ export class DinoGame extends GameRunner {
     const { cactusSpawnRate } = this.gameSetting;
     this.clearInstances(cactus);
     if (this.frameCount % cactusSpawnRate === 0 && randBoolean()) {
-      const newCactus = LocContainer.get(Cactus, {
+      const newCactus = IocContainer.get(Cactus, {
         spriteImageData: this.spriteImageData,
         baseX: this.MapConfig.mapSize.width,
         baseY: this.MapConfig.mapSize.height,
@@ -239,7 +239,7 @@ export class DinoGame extends GameRunner {
 
     this.clearInstances(birds);
     if (this.frameCount % this.gameSetting.birdSpawnRate === 0) {
-      const newBird = LocContainer.get(Bird, {
+      const newBird = IocContainer.get(Bird, {
         spriteImageData: this.spriteImageData,
         speed: GAME_DEFAULT_SETTING.birdSpeed,
         baseX: this.MapConfig.mapSize.width,

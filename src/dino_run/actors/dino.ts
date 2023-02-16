@@ -3,7 +3,7 @@ import { GAME_DEFAULT_SETTING } from "../setting/game.setting";
 import { SPRITES_ENUM } from "../setting/sprites.setting";
 import { randInteger } from "../util/random";
 import { Actor, IActorParams } from "./actors";
-import { Sprite } from "../core/loC/loC";
+import { Sprite } from "../core/IoC/IoC";
 import { DrawerService } from "../services";
 
 @Sprite()
